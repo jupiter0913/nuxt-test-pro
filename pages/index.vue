@@ -1,18 +1,16 @@
 <template>
   <div class="container">
-    <div>
+    <div class="full-width">
       <logo />
       <h1 class="title">
         nuxt-test-pro
       </h1>
-      <div class="row">
+      <div class="row center">
         <h4>Please insert column count: </h4>
         <input type="text" class="col_count" v-model="colCount"/>
       </div>
-      <div class="row">
-        <div class="col-style" v-for="col in getColList()" :key="col" :style="'width: '+100/colCount+'%'">
-          <div class="content-style col-resize" draggable="true">
-          </div>
+      <div class="row center">
+        <div class="resize-style"  draggable="true" v-for="col in getColList()" :key="col" :style="'width: '+90/colCount+'%'">
         </div>
       </div>
     </div>
@@ -80,17 +78,20 @@ export default Vue.extend({
 .col_count {
   margin-left: 10px;
 }
-.col-style {
-  padding: 5px;
+
+.full-width {
+  width: 100%;
 }
 
-.content-style {
+.center {
+  justify-content: center;
+}
+
+.resize-style {
+  margin: 3px;
   background-color: chocolate;
   width: 100%;
   height: 100px;
-}
-
-.col-resize {
   border: 3px dotted orange;
   resize: both;
   overflow: auto;
