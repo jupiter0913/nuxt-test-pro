@@ -2,24 +2,31 @@
   <div class="container">
     <div class="full-width">
       <logo />
-      <h1 class="title">
-        nuxt-test-pro
-      </h1>
+      <h1 class="title">nuxt-test-pro</h1>
       <div class="row center">
-        <h4>Please insert column count: </h4>
-        <input type="text" class="col_count" v-model="colCount"/>
+        <h4>Please insert column count:</h4>
+        <input type="text" class="col_count" v-model="colCount" />
       </div>
-      <div class="row center">
-        <div class="resize-style"  draggable="true" v-for="col in getColList()" :key="col" :style="'width: '+90/colCount+'%'">
-        </div>
+      <div class="row center" id="container">
+        <div
+          class="resize-style"
+          v-for="col in getColList()"
+          :key="col"
+          :style="'width: '+90/colCount+'%'"
+          draggable="true"
+          v-on:dragstart="dragstart(col, $event)"
+          v-on:dragend="dragend($event)"
+          v-on:dragenter="dragenter(col, $event)"
+          :id="'col_'+col"
+        ></div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Logo from '~/components/Logo.vue'
+import Vue from "vue";
+import Logo from "~/components/Logo.vue";
 
 export default Vue.extend({
   components: {
@@ -27,20 +34,40 @@ export default Vue.extend({
   },
   data() {
     return {
-      colCount: 0
-    }
+      colCount: 0,
+      startX: 0,
+      enterX: 0,
+      dragStartId: 0,
+      dragEnterId: 0
+    };
   },
-  methods:{
+  methods: {
     getColList() {
       var colList = [];
 
       for (let index = 0; index < this.colCount; index++) {
-        colList.push(index);        
+        colList.push(index);
       }
       return colList;
+    },
+    dragstart(item:any, e:any) {
+      this.startX = e.screenX;
+      this.dragStartId = item;
+    },
+    dragend(e:any) {
+      var startObj = document.getElementById("col_"+this.dragStartId);
+      var enterObj = document.getElementById("col_"+this.dragEnterId);
+      if(this.enterX < this.startX)
+        startObj.parentNode.insertBefore(startObj, enterObj);
+      else if(this.enterX > this.startX)
+        enterObj.parentNode.insertBefore(enterObj, startObj);
+    },
+    dragenter(item:any, e:any) {
+      this.enterX = e.screenX;
+      this.dragEnterId = item;
     }
   }
-})
+});
 </script>
 
 <style>
@@ -54,8 +81,8 @@ export default Vue.extend({
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
