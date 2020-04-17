@@ -11,7 +11,7 @@
       </div>
       <div class="row">
         <div class="col-style" v-for="col in getColList()" :key="col" :style="'width: '+100/colCount+'%'">
-          <div class="content-style col-resize">
+          <div class="content-style col-resize" draggable="true">
           </div>
         </div>
       </div>
@@ -94,5 +94,14 @@ export default Vue.extend({
   border: 3px dotted orange;
   resize: both;
   overflow: auto;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
 }
 </style>
