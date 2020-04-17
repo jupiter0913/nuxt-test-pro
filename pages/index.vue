@@ -7,11 +7,11 @@
       </h1>
       <div class="row">
         <h4>Please insert column count: </h4>
-        <input type="text" id="col_count" v-model="colCount"/>
+        <input type="text" class="col_count" v-model="colCount"/>
       </div>
       <div class="row">
         <div class="col-style" v-for="col in getColList()" :key="col" :style="'width: '+100/colCount+'%'">
-          <div class="content-style">
+          <div class="content-style col-resize">
           </div>
         </div>
       </div>
@@ -77,12 +77,22 @@ export default Vue.extend({
   padding-top: 15px;
 }
 
+.col_count {
+  margin-left: 10px;
+}
 .col-style {
   padding: 5px;
 }
+
 .content-style {
   background-color: chocolate;
   width: 100%;
   height: 100px;
+}
+
+.col-resize {
+  border: 3px dotted orange;
+  resize: both;
+  overflow: auto;
 }
 </style>
