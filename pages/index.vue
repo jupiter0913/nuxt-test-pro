@@ -5,24 +5,15 @@
       <h1 class="title">
         nuxt-test-pro
       </h1>
-      <h2 class="subtitle">
-        My ultimate Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <div class="row">
+        <h4>Please insert column count: </h4>
+        <input type="text" class="col_count" v-model="colCount"/>
+      </div>
+      <div class="row">
+        <div class="col-style" v-for="col in getColList()" :key="col" :style="'width: '+100/colCount+'%'">
+          <div class="content-style col-resize" draggable="true">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +26,21 @@ import Logo from '~/components/Logo.vue'
 export default Vue.extend({
   components: {
     Logo
+  },
+  data() {
+    return {
+      colCount: 0
+    }
+  },
+  methods:{
+    getColList() {
+      var colList = [];
+
+      for (let index = 0; index < this.colCount; index++) {
+        colList.push(index);        
+      }
+      return colList;
+    }
   }
 })
 </script>
@@ -69,5 +75,33 @@ export default Vue.extend({
 
 .links {
   padding-top: 15px;
+}
+
+.col_count {
+  margin-left: 10px;
+}
+.col-style {
+  padding: 5px;
+}
+
+.content-style {
+  background-color: chocolate;
+  width: 100%;
+  height: 100px;
+}
+
+.col-resize {
+  border: 3px dotted orange;
+  resize: both;
+  overflow: auto;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
 }
 </style>
